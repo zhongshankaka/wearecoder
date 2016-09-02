@@ -1,0 +1,15 @@
+<meta charset="UTF-8">
+
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}We are coder－修改资料{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <p>修改资料</p>
+</div>
+<div class="col-md-4">
+    {{ wtf.quick_form(form) }}
+</div>
+{% endblock %}
