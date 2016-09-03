@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from flask_wtf import Form
-from wtforms import StringField, SubmitField,TextAreaField, BooleanField, SelectField
+from wtforms import StringField, SubmitField,TextAreaField, SelectField
 from wtforms.validators import Required, Length, Email, Regexp
 from wtforms import ValidationError
 from ..models import  Role, User
@@ -46,3 +46,8 @@ class EditProfileAdminForm(Form):
         if field.data != self.user.email and \
                 User.query.filter_by(username=field.data).first():
             raise ValidationError(u'该用户名已被使用.')
+
+
+class PostForm(Form):
+    body = TextAreaField(u'你想发表什么?', validators=[Required()])
+    submit = SubmitField(u'发表')
