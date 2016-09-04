@@ -5,6 +5,7 @@ from flask_wtf import Form
 from wtforms import StringField, SubmitField,TextAreaField, SelectField
 from wtforms.validators import Required, Length, Email, Regexp
 from wtforms import ValidationError
+from flask_pagedown.fields import PageDownField
 from ..models import  Role, User
 
 class NameForm(Form):
@@ -49,5 +50,5 @@ class EditProfileAdminForm(Form):
 
 
 class PostForm(Form):
-    body = TextAreaField(u'你想发表什么?', validators=[Required()])
+    body = PageDownField(u'你想发表什么?', validators=[Required()])
     submit = SubmitField(u'发表')
