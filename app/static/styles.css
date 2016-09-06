@@ -47,6 +47,10 @@ div.pagination {
     margin: 0px;
 }
 
+div.post-footer {
+    text-align: right;
+}
+
 div.flask-pagedown-preview {
     margin: 10px 0px 10px 0px;
     border: 1px solid #e0e0e0;
