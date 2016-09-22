@@ -6,11 +6,13 @@
 {% block title %}We are coder - 修改文章{% endblock %}
 
 {% block page_content %}
-<div class="page-header">
-    <h2>修改文章</h2>
-</div>
-<div>
-    {{ wtf.quick_form(form) }}
+<div class="col-md-8">
+    <div class="page-header">
+        <h2>修改文章</h2>
+    </div>
+    <div>
+        {{ wtf.quick_form(form) }}
+    </div>
 </div>
 {% endblock %}
 
