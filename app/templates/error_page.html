@@ -1,0 +1,15 @@
+<meta charset="UTF-8">
+
+{% extends "base.html" %}
+
+{% block title %}we are coder - {{ code }}: {{ name }}{% endblock %}
+
+{% block page_content %}
+<div class="col-md-8">
+    <div class="page-header">
+        <h1>{{ code }}: {{ name }}</h1>
+        <p>{{ description }}</p>
+    </div>
+</div>
+{% endblock %}
+

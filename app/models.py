@@ -168,11 +168,10 @@ class User(UserMixin, db.Model):
             'member_since': self.member_since,
             'posts': url_for('api.get_user_posts', id=self.id, _external=True),
             'followed_posts': url_for('api.get_user_followed_posts',
-                                      id=self.id, __external=True),
+                                      id=self.id, _external=True),
             'post_count': self.posts.count()
         }
         return json_user
-
 
     def generate_auth_token(self, expiration):
         s = Serializer(current_app.config['SECRET_KEY'],
@@ -181,7 +180,7 @@ class User(UserMixin, db.Model):
 
     @staticmethod
     def verify_auth_token(token):
-        s = Serializer(current_app.config['SERET_KEY'])
+        s = Serializer(current_app.config['SECRET_KEY'])
         try:
             data = s.loads(token)
         except:
@@ -235,7 +234,7 @@ class Post(db.Model):
                               _external=True),
             'comments': url_for('api.get_post_comments', id=self.id,
                                 _external=True),
-            'comments': self.comments.count()
+            'comment_count': self.comments.count()
         }
         return json_post
 
@@ -243,7 +242,7 @@ class Post(db.Model):
     def from_json(json_post):
         body = json_post.get('body')
         if body is None or body == '':
-            raise ValidationError(u'你未输入文字')
+            raise ValidationError('post does not have a body')
         return Post(body=body)
 
 db.event.listen(Post.body, 'set', Post.on_changed_body)
@@ -265,6 +264,26 @@ class Comment(db.Model):
         target.body_html = bleach.linkify(bleach.clean(
             markdown(value, output_format='html'),
             tags=allowed_tags, strip=True))
+
+    def to_json(self):
+        json_comment = {
+            'url': url_for('api.get_comment', id=self.id, _external=True),
+            'post': url_for('api.get_post', id=self.post_id, _external=True),
+            'body': self.body,
+            'body_html': self.body_html,
+            'timestamp': self.timestamp,
+            'author': url_for('api.get_user', id=self.author_id,
+                              _external=True),
+        }
+        return json_comment
+
+    @staticmethod
+    def from_json(json_comment):
+        body = json_comment.get('body')
+        if body is None or body == '':
+            raise ValidationError('comment does not have a body')
+        return Comment(body=body)
+
 
 db.event.listen(Comment.body, 'set', Comment.on_changed_body)
 
