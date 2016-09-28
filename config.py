@@ -23,8 +23,16 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URL = 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
 
+
+class TestingConfig(Config):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'data-test.sqlite')
+    WTF_CSRF_ENABLED = False
+
+
 config = {
     'development': DevelopmentConfig,
     'production': ProductionConfig,
+    'testing': TestingConfig,
     'default': DevelopmentConfig
 }
